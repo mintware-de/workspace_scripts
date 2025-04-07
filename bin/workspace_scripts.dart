@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as p;
+import 'package:workspace_scripts/workspace_scripts.dart';
 import 'package:yaml/yaml.dart';
 
 /// Run the tool
@@ -26,29 +27,26 @@ Future<void> _run(List<String> arguments) async {
     return;
   }
 
-  var yamlContent = _loadPubspec();
-  if (yamlContent == null) {
+  var config = _loadConfig();
+  if (config == null) {
     return;
   }
 
   var scriptName = arguments.first;
-  var script = _getScript(yamlContent, scriptName);
+  var script = config.workspaceScripts[scriptName];
   if (script == null) {
     print('script not found');
     return;
   }
-  var roots = _getProjectRoots(yamlContent);
 
-  var command = script['command'];
-  var args = (script['arguments'] as List).cast<String>();
-
+  var roots = _getProjectRoots(config);
   var maxLength =
       (roots.keys.map((k) => k.length).toList()..sort((a, b) => b - a)).first;
   await Future.wait(
     roots.entries.map((kvp) async {
       var proc = await Process.start(
-        command,
-        args,
+        script.command,
+        script.arguments,
         workingDirectory: kvp.value,
         mode: ProcessStartMode.detachedWithStdio,
         includeParentEnvironment: true,
@@ -68,32 +66,17 @@ Future<void> _run(List<String> arguments) async {
   );
 }
 
-Map<String, String> _getProjectRoots(Map<String, dynamic> yamlContent) {
+Map<String, String> _getProjectRoots(Config config) {
   var projectRoots = <String, String>{};
 
-  for (var path in (yamlContent['workspace'] as List).cast<String>()) {
+  for (var path in config.packages) {
     projectRoots[path] = p.join(p.current, path);
   }
 
   return projectRoots;
 }
 
-Map<String, dynamic> _getScripts(Map<String, dynamic> yamlContent) {
-  return yamlContent['workspace_scripts'] as Map<String, dynamic>;
-}
-
-Map<String, dynamic>? _getScript(
-  Map<String, dynamic> yamlContent,
-  String script,
-) {
-  final scripts = _getScripts(yamlContent);
-  if (!scripts.containsKey(script)) {
-    return null;
-  }
-  return scripts[script];
-}
-
-Map<String, dynamic>? _loadPubspec() {
+Config? _loadConfig() {
   var pubspec = File(p.join(p.current, 'pubspec.yaml'));
   if (!pubspec.existsSync()) {
     print('No pubspec.yaml');
@@ -110,5 +93,6 @@ Map<String, dynamic>? _loadPubspec() {
     print('No workspace scripts found.');
     return null;
   }
-  return map;
+
+  return Config.fromJson(map);
 }
