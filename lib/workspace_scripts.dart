@@ -1,2 +1,9 @@
-export 'src/config.dart';
-export 'src/workspace_script.dart';
+export 'src/model/config.dart';
+export 'src/model/workspace_script.dart';
+export 'src/notifier/stdout_process_notifier_test.dart';
+export 'src/notifier/task_notifier.dart';
+export 'src/process_task.dart';
+export 'src/task.dart';
+export 'src/task_scheduler.dart';
+export 'src/task_status_wrapper.dart';
+export 'src/task_lifecycle_hooks.dart';
