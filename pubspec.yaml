@@ -1,6 +1,6 @@
 name: workspace_scripts
 description: A helper for dart workspace projects
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/mintware-de/workspace_scripts
 
 environment:
