@@ -1,17 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'task.dart';
 import 'notifier/task_notifier.dart';
+import 'task.dart';
 
+/// This implementation is used for running processes
 class ProcessTask implements Task {
-  final String command;
-  final List<String> arguments;
-  final String? workingDirectory;
-
   @override
   final String name;
 
+  /// The command to execute.
+  final String command;
+
+  /// The list of arguments to pass to the [command]
+  final List<String> arguments;
+
+  /// The working directory where the command should be executed.
+  final String? workingDirectory;
+
+  /// Creates a new ProcessTask to execute
   ProcessTask({
     required this.name,
     required this.command,
