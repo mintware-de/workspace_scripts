@@ -40,30 +40,30 @@ Future<void> _run(List<String> arguments) async {
   }
 
   var roots = _getProjectRoots(config);
-  var maxLength =
-      (roots.keys.map((k) => k.length).toList()..sort((a, b) => b - a)).first;
-  await Future.wait(
-    roots.entries.map((kvp) async {
-      var proc = await Process.start(
-        script.command,
-        script.arguments,
-        workingDirectory: kvp.value,
-        mode: ProcessStartMode.detachedWithStdio,
-        includeParentEnvironment: true,
-        runInShell: true,
-      );
-      final prefix = '[${kvp.key}]'.padRight(maxLength + 2, ' ');
-      proc.stdout
-          .transform(utf8.decoder)
-          .forEach(
-            (l) => l
-                .split(Platform.pathSeparator)
-                .forEach((x) => print('$prefix ${x.trim()}')),
-          );
 
-      return proc;
-    }),
+  final tasks =
+      roots.entries
+          .map(
+            (kvp) => ProcessTask(
+              name: kvp.key,
+              command: script.command,
+              arguments: script.arguments,
+              workingDirectory: kvp.value,
+            ),
+          )
+          .toList();
+
+  var maxLength =
+      (tasks.map((k) => k.name.length).toList()..sort((a, b) => b - a)).first;
+
+  final scheduler = TaskScheduler(
+    StdOutProcessNotifier(maxLength),
+    maxConcurrency: script.concurrency,
+    onWorkCompletePattern: script.checks.onWorkCompletePattern,
   );
+  scheduler.addAll(tasks);
+
+  await scheduler.start();
 }
 
 Map<String, String> _getProjectRoots(Config config) {
