@@ -22,6 +22,7 @@ class WorkspaceScript {
   /// The default value is the number of processors.
   final int concurrency;
 
+  /// The checks for managing task lifecycles
   final TaskLifecycleChecks checks;
 
   /// Creates a new workspace script
