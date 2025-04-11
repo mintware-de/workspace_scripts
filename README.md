@@ -37,6 +37,12 @@ workspace_scripts:
   build_watch: # name of the script
     command: dart                               # command to execute 
     arguments: [ 'run', 'build_runner', 'watch' ] # arguments to pass to the command
+    # concurrency: # Number of parallel tasks. Defaults to the number of CPUs. 0 = no limit
+    # checks:
+    #   # If you use long-running commands like above, concurrency is not working ootb because
+    #   # The processes don't end. The on_work_complete_pattern checks the tasks for a given output.
+    #   # If the pattern was found, the task is marked as "complete"
+    #   on_work_complete_pattern: 'Succeeded after \d+ms'
 ```
 
 Now you're able to run `workspace_scripts run build_watch` (`build_watch` is the name of your script).
