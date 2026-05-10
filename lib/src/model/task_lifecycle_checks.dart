@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'task_lifecycle_checks.g.dart';
 
+/// The config object for lifecycle checks
 @JsonSerializable()
 class TaskLifecycleChecks {
   /// Pass a RegExp pattern that matches the output on a long running task if

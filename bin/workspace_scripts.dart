@@ -17,13 +17,13 @@ Future<void> main(List<String> arguments) async {
       break;
 
     default:
-      print('Unknown command $command');
+      stdout.write('Unknown command $command');
   }
 }
 
 Future<void> _run(List<String> arguments) async {
   if (arguments.isEmpty) {
-    print('missing script name');
+    stdout.write('missing script name');
     return;
   }
 
@@ -35,7 +35,7 @@ Future<void> _run(List<String> arguments) async {
   var scriptName = arguments.first;
   var script = config.workspaceScripts[scriptName];
   if (script == null) {
-    print('script not found');
+    stdout.write('script not found');
     return;
   }
 
@@ -79,18 +79,18 @@ Map<String, String> _getProjectRoots(Config config) {
 Config? _loadConfig() {
   var pubspec = File(p.join(p.current, 'pubspec.yaml'));
   if (!pubspec.existsSync()) {
-    print('No pubspec.yaml');
+    stdout.write('No pubspec.yaml');
     return null;
   }
   var content = loadYaml(pubspec.readAsStringSync());
   var map = jsonDecode(jsonEncode(content)) as Map<String, dynamic>;
   if (!map.containsKey('workspace')) {
-    print('No workspace pubspec.yaml');
+    stdout.write('No workspace pubspec.yaml');
     return null;
   }
 
   if (!map.containsKey('workspace_scripts')) {
-    print('No workspace scripts found.');
+    stdout.write('No workspace scripts found.');
     return null;
   }
 

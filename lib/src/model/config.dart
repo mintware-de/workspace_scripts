@@ -9,9 +9,11 @@ part 'config.g.dart';
 /// and call Config.fromJson
 @JsonSerializable()
 class Config {
+  /// The list of packages
   @JsonKey(name: 'workspace')
   final List<String> packages;
 
+  /// The workspace scripts
   @JsonKey(name: 'workspace_scripts')
   final Map<String, WorkspaceScript> workspaceScripts;
 

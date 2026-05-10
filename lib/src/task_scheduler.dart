@@ -12,6 +12,7 @@ import 'task.dart';
 class TaskScheduler implements OnWorkCompleteHook {
   final _tasks = <Task>[];
 
+  /// The number of tasks
   int get length => _tasks.length;
   final int _maxConcurrency;
 
