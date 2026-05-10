@@ -1,3 +1,7 @@
+## 0.0.3
+
+Maintenance: Update dependencies
+
 ## 0.0.2
 
 ### Features
