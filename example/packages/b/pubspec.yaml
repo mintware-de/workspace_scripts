@@ -1,0 +1,6 @@
+name: example_b
+publish_to: none
+resolution: workspace
+
+environment:
+  sdk: ^3.7.2

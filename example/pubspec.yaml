@@ -1,0 +1,14 @@
+name: _
+publish_to: none
+environment:
+  sdk: ^3.7.2
+
+workspace:
+  - packages/a
+  - packages/b
+
+# use the commands with `workspace_scripts run {name}`
+workspace_scripts:
+  outdated: # workspace_scripts run outdated
+    command: dart
+    arguments: [ 'pub', 'outdated' ]
