@@ -1,6 +1,6 @@
 name: workspace_scripts
 description: A helper for dart workspace projects. Use it for running commands in all packages with just one command.
-version: 0.0.3
+version: 0.0.4
 repository: https://github.com/mintware-de/workspace_scripts
 
 environment:

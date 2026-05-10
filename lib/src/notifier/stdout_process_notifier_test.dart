@@ -12,7 +12,7 @@ class StdOutProcessNotifier implements TaskNotifier {
   @override
   void notify(Task task, String text) {
     final prefix = _getPrefix(task);
-    stdout.write('$prefix ${text.trim()}');
+    stdout.writeln('$prefix ${text.trim()}');
   }
 
   String _getPrefix(Task task) =>

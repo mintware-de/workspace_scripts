@@ -1,3 +1,7 @@
+## 0.0.4
+
+Fix: replaced stdout.write with stdout.writeln to fix output progress
+
 ## 0.0.3
 
 Maintenance: Update dependencies
